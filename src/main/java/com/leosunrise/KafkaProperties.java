@@ -6,7 +6,7 @@ package com.leosunrise;
  * @Date: 2017/2/15
  */
 public class KafkaProperties {
-    public static final String TOPIC = "alpha_pai_test";
+    public static final String TOPIC = "kafka_test";
     public static final String KAFKA_SERVER_URL = "10.1.200.134";
     public static final int KAFKA_SERVER_PORT = 9092;
     public static final int KAFKA_PRODUCER_BUFFER_SIZE = 64 * 1024;
