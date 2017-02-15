@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 设置全局参数 -->
+    <property name="log.dir" value="/data/logs/alpha-auction-tomcat"/>
+    <property name="encoding" value="UTF-8"/>
+    <property name="normal-pattern" value="%d{HH:mm:ss.SSS} %-5level %logger{1}:%L [%X{lgTraceID}] [%thread-%d{HH:mm}] %msg%n"/>
+    <property name="stdout-pattern" value="%.-5level%d{yyyy-MM-dd HH:mm:ss} %-40logger{0} |----- %msg%n"/>
+
+    <!-- 正常日志 -->
+    <appender name="auction" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${log.dir}/auction.log</File>
+        <prudent>false</prudent>
+        <Append>true</Append>
+        <encoder>
+            <pattern>${normal-pattern}</pattern>
+            <charset>${encoding}</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/auction.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+            <maxHistory>720</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 错误日志 -->
+    <appender name="auction_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <File>${log.dir}/auction_error.log</File>
+        <prudent>false</prudent>
+        <Append>true</Append>
+        <encoder>
+            <pattern>${normal-pattern}</pattern>
+            <charset>${encoding}</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/auction_error.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+            <maxHistory>720</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 控制台 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${stdout-pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="auction_async" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="auction" />
+        <queueSize>2048</queueSize>
+    </appender>
+
+    <!--<appender name="auction_error_async" class="ch.qos.logback.classic.AsyncAppender">-->
+        <!--<appender-ref ref="auction_error" />-->
+        <!--<queueSize>2048</queueSize>-->
+    <!--</appender>-->
+
+    <logger name="stdout" level="INFO"/>
+    <logger name="fileLog" level="INFO"/>
+    <logger name="accessLog" level="INFO"/>
+
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="auction_async"/>
+        <appender-ref ref="auction_error"/>
+    </root>
+</configuration>

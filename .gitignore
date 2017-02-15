@@ -1,0 +1,12 @@
+# ignore Maven generated target folders
+target
+
+# ignore idea files
+.idea/
+leo-kafka-demo.iml
+
+# ignore eclipse files
+.project
+.classpath
+.settings
+.metadata
